@@ -98,7 +98,7 @@ export function BrandingNavbar({
               className="bg-transparent hover:bg-transparent p-0 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               <Link
-                href={item.href}
+                href={item.href as any}
                 target={item.external ? "_blank" : undefined}
                 rel={item.external ? "noopener noreferrer" : undefined}
               >
@@ -113,7 +113,7 @@ export function BrandingNavbar({
           {rightContent}
           {cta && (
             <Button asChild>
-              <Link href={cta.href}>{cta.label}</Link>
+              <Link href={cta.href as any}>{cta.label}</Link>
             </Button>
           )}
         </NavbarActions>
@@ -143,7 +143,7 @@ export function BrandingNavbar({
                   {items.map((item, idx) => (
                     <Link
                       key={idx}
-                      href={item.href}
+                      href={item.href as any}
                       target={item.external ? "_blank" : undefined}
                       rel={item.external ? "noopener noreferrer" : undefined}
                       className="text-lg font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-md hover:bg-muted"
@@ -156,7 +156,7 @@ export function BrandingNavbar({
                 {cta && (
                   <Button asChild size="lg" className="w-full mt-4">
                     <Link
-                      href={cta.href}
+                      href={cta.href as any}
                       onClick={() => setIsMobileOpen(false)}
                     >
                       {cta.label}

@@ -88,7 +88,7 @@ export function Footer({
                                 {column.links.map((link, linkIdx) => (
                                     <li key={linkIdx}>
                                         <Link
-                                            href={link.href}
+                                            href={link.href as any}
                                             target={link.external ? "_blank" : undefined}
                                             rel={link.external ? "noopener noreferrer" : undefined}
                                             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
