@@ -23,7 +23,8 @@
   },
   "scripts": {
     "lint": "eslint src",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:release": "bash ./scripts/pre-release-check.sh"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
