@@ -210,7 +210,7 @@ function EditorSidebar({
     return (
         <aside
             className={cn(
-                "hidden md:flex flex-col bg-background border-border shrink-0 overflow-hidden transition-all duration-200 relative",
+                "hidden md:flex flex-col bg-sidebar border-border shrink-0 overflow-hidden transition-all duration-200 relative",
                 side === "left" ? "border-r" : "border-l",
                 config.className
             )}
@@ -302,7 +302,7 @@ export function EditorLayout({
                 {topbar?.enabled && (
                     <header
                         className={cn(
-                            "shrink-0 border-b border-border bg-background flex items-center",
+                            "shrink-0 border-b border-border bg-sidebar flex items-center",
                             topbar.className
                         )}
                         style={{ height: topbar.height ?? 64 }}
@@ -392,7 +392,7 @@ export function EditorLayout({
                 {bottombar?.enabled && (
                     <footer
                         className={cn(
-                            "shrink-0 border-t border-border bg-background flex items-center justify-center", // Added justify-center
+                            "shrink-0 border-t border-border bg-sidebar flex items-center justify-center", // Added justify-center
                             bottombar.className
                         )}
                         style={{ height: bottombar.height ?? 40 }} // Increased default height slightly
