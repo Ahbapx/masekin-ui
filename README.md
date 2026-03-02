@@ -1,5 +1,8 @@
 # @masekin/ui
 
+## App Summary
+`@masekin/ui` is the shared component package used across Masekin applications, providing a reusable design-and-interaction layer on top of established open-source primitives so product repos can move faster with consistent UI behavior.
+
 Shared UI package for Masekin apps.
 
 ## Attribution
