@@ -5,6 +5,7 @@ import { cn } from "../../lib/utils";
 import { ChevronLeft, ChevronRight, PanelLeft, PanelRight, GripVertical } from "lucide-react";
 import { Button } from "../ui/button";
 import { FloatingToolbar } from "../ui/floating-toolbar";
+import { ScrollArea } from "../ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "../ui/sheet";
 import { Separator } from "../ui/separator";
 
@@ -181,9 +182,11 @@ function EditorSidebar({
                             {config.header}
                         </div>
                     )}
-                    <div className="flex-1 overflow-y-auto">
-                        {config.content}
-                    </div>
+                    <ScrollArea className="flex-1 min-h-0">
+                        <div className="box-border w-full max-w-full min-w-0 overflow-x-hidden pr-3">
+                            {config.content}
+                        </div>
+                    </ScrollArea>
                     {config.footer && (
                         <div className="shrink-0 border-t border-border bg-muted/30">
                             {config.footer}
@@ -222,9 +225,11 @@ function EditorSidebar({
                     {config.header}
                 </div>
             )}
-            <div className="flex-1 overflow-y-auto overflow-x-hidden">
-                {config.content}
-            </div>
+            <ScrollArea className="flex-1 min-h-0">
+                <div className="box-border w-full max-w-full min-w-0 overflow-x-hidden pr-3">
+                    {config.content}
+                </div>
+            </ScrollArea>
             {config.footer && (
                 <div className="shrink-0 border-t border-border bg-muted/30">
                     {config.footer}
@@ -543,4 +548,3 @@ export function EditorToolbar({
 export function EditorToolbarSeparator() {
     return <Separator orientation="vertical" className="h-4 bg-border/50 mx-1" />;
 }
-
