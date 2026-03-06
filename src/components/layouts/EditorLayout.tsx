@@ -67,6 +67,12 @@ export interface CanvasConfig {
     className?: string;
     /** Background pattern style */
     backgroundStyle?: "dots" | "lines" | "none" | "transparent";
+    /** Optional scroll area wrapper for the canvas content */
+    scrollArea?: {
+        enabled?: boolean;
+        className?: string;
+        viewportClassName?: string;
+    };
 }
 
 export interface FloatingToolbarConfig {
@@ -254,6 +260,7 @@ export function EditorLayout({
     children,
 }: EditorLayoutProps) {
     const isMobile = useIsMobile();
+    const canvasContent = canvas?.content ?? children;
 
     // Sidebar state (desktop)
     const [leftOpen, setLeftOpen] = React.useState(!leftSidebar?.defaultCollapsed);
@@ -363,7 +370,16 @@ export function EditorLayout({
                             </Button>
                         )}
 
-                        {canvas?.content ?? children}
+                        {canvas?.scrollArea?.enabled ? (
+                            <ScrollArea
+                                className={cn("flex-1 min-h-0", canvas.scrollArea.className)}
+                                viewportClassName={canvas.scrollArea.viewportClassName}
+                            >
+                                {canvasContent}
+                            </ScrollArea>
+                        ) : (
+                            canvasContent
+                        )}
 
                         {/* Floating Toolbar */}
                         {floatingToolbar?.enabled && floatingToolbar.content && (
