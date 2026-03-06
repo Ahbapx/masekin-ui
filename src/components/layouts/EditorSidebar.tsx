@@ -66,8 +66,8 @@ function SidebarBody({
     const mainContent = (
         <SidebarContent className="h-full min-h-0 min-w-0 w-full flex-1 gap-0 overflow-hidden p-0">
             <ScrollArea
-                className={cn("h-full min-h-0 min-w-0 w-full flex-1", scrollAreaClassName)}
-                viewportClassName={cn("h-full w-full", scrollViewportClassName)}
+                className={cn("editor-sidebar-scroll-area h-full min-h-0 min-w-0 w-full flex-1", scrollAreaClassName)}
+                viewportClassName={cn("editor-sidebar-scroll-viewport h-full w-full", scrollViewportClassName)}
             >
                 <div
                     className={cn(

@@ -199,3 +199,12 @@
         mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
     }
 }
+
+@layer base {
+    .editor-sidebar-scroll-viewport > div {
+        display: block !important;
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+    }
+}
