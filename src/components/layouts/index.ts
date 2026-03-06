@@ -14,3 +14,8 @@ export {
     type CanvasConfig,
     type FloatingToolbarConfig,
 } from "./EditorLayout";
+export {
+    EditorSidebar,
+    type EditorSidebarProps,
+    type EditorSidebarThinbarConfig,
+} from "./EditorSidebar";

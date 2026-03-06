@@ -6,8 +6,11 @@ import { ChevronLeft, ChevronRight, PanelLeft, PanelRight, GripVertical } from "
 import { Button } from "../ui/button";
 import { FloatingToolbar } from "../ui/floating-toolbar";
 import { ScrollArea } from "../ui/scroll-area";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "../ui/sheet";
 import { Separator } from "../ui/separator";
+import {
+    EditorSidebar,
+    type EditorSidebarThinbarConfig,
+} from "./EditorSidebar";
 
 // ============================================================================
 // Types
@@ -34,6 +37,14 @@ export interface SidebarConfig {
     defaultCollapsed?: boolean;
     /** Custom className */
     className?: string;
+    /** Optional thinbar shown alongside the sidebar content */
+    thinbar?: EditorSidebarThinbarConfig;
+    /** Custom className for the sidebar scroll area root */
+    scrollAreaClassName?: string;
+    /** Custom className for the sidebar scroll viewport */
+    scrollViewportClassName?: string;
+    /** Custom className for the inner sidebar content wrapper */
+    contentClassName?: string;
 }
 
 export interface TopbarConfig {
@@ -146,109 +157,6 @@ function useIsMobile() {
     return isMobile;
 }
 
-// ============================================================================
-// Sub-components
-// ============================================================================
-
-interface EditorSidebarProps {
-    side: "left" | "right";
-    config: SidebarConfig;
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    mobileOpen: boolean;
-    onMobileOpenChange: (open: boolean) => void;
-    isMobile: boolean;
-}
-
-function EditorSidebar({
-    side,
-    config,
-    open,
-    onOpenChange: _onOpenChange,
-    mobileOpen,
-    onMobileOpenChange,
-    isMobile,
-}: EditorSidebarProps) {
-    const width = typeof config.width === "number" ? `${config.width}px` : (config.width ?? "300px");
-
-    // Mobile: use Sheet
-    if (isMobile) {
-        return (
-            <Sheet open={mobileOpen} onOpenChange={onMobileOpenChange}>
-                <SheetContent
-                    side={side}
-                    className="w-[85vw] max-w-[320px] p-0 flex flex-col"
-                >
-                    <SheetHeader className="sr-only">
-                        <SheetTitle>{side === "left" ? "Left Sidebar" : "Right Sidebar"}</SheetTitle>
-                        <SheetDescription>Navigation and controls</SheetDescription>
-                    </SheetHeader>
-                    {config.header && (
-                        <div className="shrink-0 border-b border-border bg-muted/30">
-                            {config.header}
-                        </div>
-                    )}
-                    <ScrollArea className="flex-1 min-h-0">
-                        <div className="box-border w-full max-w-full min-w-0 overflow-x-hidden pr-3">
-                            {config.content}
-                        </div>
-                    </ScrollArea>
-                    {config.footer && (
-                        <div className="shrink-0 border-t border-border bg-muted/30">
-                            {config.footer}
-                        </div>
-                    )}
-                </SheetContent>
-            </Sheet>
-        );
-    }
-
-    // Desktop: inline sidebar
-    if (!open && config.collapsible) {
-        return (
-            <aside
-                className={cn(
-                    "hidden md:block bg-background shrink-0 overflow-hidden transition-all duration-200",
-                    side === "left" ? "border-r-0" : "border-l-0"
-                )}
-                style={{ width: 0 }}
-            />
-        );
-    }
-
-    return (
-        <aside
-            className={cn(
-                "hidden md:flex flex-col bg-sidebar border-border shrink-0 overflow-hidden transition-all duration-200 relative",
-                side === "left" ? "border-r" : "border-l",
-                config.className
-            )}
-            style={{ width: open ? width : 0 }}
-        >
-
-            {config.header && (
-                <div className="shrink-0 border-b border-border bg-muted/30">
-                    {config.header}
-                </div>
-            )}
-            <ScrollArea className="flex-1 min-h-0">
-                <div className="box-border w-full max-w-full min-w-0 overflow-x-hidden pr-3">
-                    {config.content}
-                </div>
-            </ScrollArea>
-            {config.footer && (
-                <div className="shrink-0 border-t border-border bg-muted/30">
-                    {config.footer}
-                </div>
-            )}
-        </aside>
-    );
-}
-
-// ============================================================================
-// Main EditorLayout Component
-// ============================================================================
-
 export function EditorLayout({
     leftSidebar,
     rightSidebar,
@@ -329,12 +237,20 @@ export function EditorLayout({
                     {leftSidebar?.enabled && (
                         <EditorSidebar
                             side="left"
-                            config={leftSidebar}
                             open={leftOpen}
-                            onOpenChange={setLeftOpen}
                             mobileOpen={leftMobileOpen}
                             onMobileOpenChange={setLeftMobileOpen}
                             isMobile={isMobile}
+                            width={leftSidebar.width}
+                            collapsible={leftSidebar.collapsible}
+                            className={leftSidebar.className}
+                            header={leftSidebar.header}
+                            footer={leftSidebar.footer}
+                            content={leftSidebar.content}
+                            thinbar={leftSidebar.thinbar}
+                            scrollAreaClassName={leftSidebar.scrollAreaClassName}
+                            scrollViewportClassName={leftSidebar.scrollViewportClassName}
+                            contentClassName={leftSidebar.contentClassName}
                         />
                     )}
 
@@ -399,12 +315,20 @@ export function EditorLayout({
                     {rightSidebar?.enabled && (
                         <EditorSidebar
                             side="right"
-                            config={rightSidebar}
                             open={rightOpen}
-                            onOpenChange={setRightOpen}
                             mobileOpen={rightMobileOpen}
                             onMobileOpenChange={setRightMobileOpen}
                             isMobile={isMobile}
+                            width={rightSidebar.width}
+                            collapsible={rightSidebar.collapsible}
+                            className={rightSidebar.className}
+                            header={rightSidebar.header}
+                            footer={rightSidebar.footer}
+                            content={rightSidebar.content}
+                            thinbar={rightSidebar.thinbar}
+                            scrollAreaClassName={rightSidebar.scrollAreaClassName}
+                            scrollViewportClassName={rightSidebar.scrollViewportClassName}
+                            contentClassName={rightSidebar.contentClassName}
                         />
                     )}
                 </div>
