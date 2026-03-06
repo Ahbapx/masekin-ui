@@ -40,12 +40,16 @@ const Navbar = React.forwardRef<HTMLElement, NavbarProps>(
     { className, orientation = "horizontal", asChild = false, ...props },
     ref,
   ) => {
+    const resolvedOrientation: "horizontal" | "vertical" | "rail" =
+      orientation ?? "horizontal";
     const Comp = asChild ? Slot : "nav";
     return (
-      <NavbarContext.Provider value={{ orientation: orientation as any }}>
+      <NavbarContext.Provider value={{ orientation: resolvedOrientation }}>
         <Comp
           ref={ref}
-          className={cn(navbarVariants({ orientation, className }))}
+          className={cn(
+            navbarVariants({ orientation: resolvedOrientation, className }),
+          )}
           {...props}
         />
       </NavbarContext.Provider>
