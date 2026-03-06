@@ -43,7 +43,7 @@ export const SidebarThinbar: React.FC<SidebarThinbarProps> = ({
     return (
         <div
             className={cn(
-                "w-10 bg-muted/50 flex flex-col items-center py-3 gap-1 shrink-0",
+                "h-full min-h-0 w-10 shrink-0 self-stretch bg-muted/50 flex flex-col items-center py-3 gap-1",
                 position === "left" ? "border-r border-border" : "border-l border-border",
                 className
             )}
@@ -107,7 +107,7 @@ export const TabbedSidebar: React.FC<TabbedSidebarProps> = ({
     const width = typeof contentWidth === "number" ? `${contentWidth}px` : contentWidth
 
     return (
-        <div className={cn("flex h-full", className)}>
+        <div className={cn("flex h-full min-h-0 min-w-0 overflow-hidden", className)}>
             {thinbarPosition === "left" && (
                 <SidebarThinbar
                     tabs={tabs}
@@ -118,7 +118,7 @@ export const TabbedSidebar: React.FC<TabbedSidebarProps> = ({
             )}
 
             <div
-                className="flex-1 flex flex-col overflow-hidden bg-background"
+                className="flex-1 min-h-0 min-w-0 flex flex-col overflow-hidden bg-background"
                 style={{ width }}
             >
                 {children}

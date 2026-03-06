@@ -64,10 +64,10 @@ function SidebarBody({
     const thinbarPosition = thinbar?.position ?? "right";
 
     const mainContent = (
-        <SidebarContent className="min-h-0 min-w-0 flex-1 gap-0 overflow-hidden p-0">
+        <SidebarContent className="h-full min-h-0 min-w-0 w-full flex-1 gap-0 overflow-hidden p-0">
             <ScrollArea
-                className={cn("flex-1 min-h-0", scrollAreaClassName)}
-                viewportClassName={scrollViewportClassName}
+                className={cn("h-full min-h-0 min-w-0 w-full flex-1", scrollAreaClassName)}
+                viewportClassName={cn("h-full w-full", scrollViewportClassName)}
             >
                 <div
                     className={cn(
@@ -82,14 +82,14 @@ function SidebarBody({
     );
 
     return (
-        <>
+        <div className="flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
             {header && (
                 <SidebarHeader className="shrink-0 gap-0 border-b border-border bg-muted/30 p-0">
                     {header}
                 </SidebarHeader>
             )}
 
-            <div className="flex flex-1 min-h-0 min-w-0">
+            <div className="flex h-full flex-1 min-h-0 min-w-0 overflow-hidden">
                 {thinbar && thinbarPosition === "left" && (
                     <SidebarThinbar
                         tabs={thinbar.tabs}
@@ -118,7 +118,7 @@ function SidebarBody({
                     {footer}
                 </SidebarFooter>
             )}
-        </>
+        </div>
     );
 }
 
@@ -182,7 +182,7 @@ export function EditorSidebar({
     return (
         <aside
             className={cn(
-                "relative hidden h-full shrink-0 flex-col overflow-hidden border-border bg-sidebar transition-all duration-200 md:flex",
+                "relative hidden h-full min-h-0 min-w-0 shrink-0 flex-col overflow-hidden border-border bg-sidebar transition-all duration-200 md:flex",
                 side === "left" ? "border-r" : "border-l",
                 className,
             )}
