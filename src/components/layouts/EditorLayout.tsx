@@ -83,6 +83,7 @@ export interface CanvasConfig {
         enabled?: boolean;
         className?: string;
         viewportClassName?: string;
+        viewportRef?: React.Ref<HTMLDivElement>;
     };
 }
 
@@ -290,6 +291,7 @@ export function EditorLayout({
                             <ScrollArea
                                 className={cn("flex-1 min-h-0", canvas.scrollArea.className)}
                                 viewportClassName={canvas.scrollArea.viewportClassName}
+                                viewportRef={canvas.scrollArea.viewportRef}
                             >
                                 {canvasContent}
                             </ScrollArea>
