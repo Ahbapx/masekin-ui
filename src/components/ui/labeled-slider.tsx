@@ -51,16 +51,23 @@ export const LabeledSlider: React.FC<LabeledSliderProps> = ({
     defaultValue,
     onPointerDown
 }) => {
+    const getDecimals = () => {
+        if (step < 0.001) return 4;
+        if (step < 0.01) return 3;
+        if (step < 1) return 2;
+        return 0;
+    };
+
     const handleDecrease = () => {
         if (locked) return
         const newVal = Math.max(min, value - step)
-        onChange(Number(newVal.toFixed(step < 1 ? 3 : 1)))
+        onChange(Number(newVal.toFixed(getDecimals())))
     }
 
     const handleIncrease = () => {
         if (locked) return
         const newVal = Math.min(max, value + step)
-        onChange(Number(newVal.toFixed(step < 1 ? 3 : 1)))
+        onChange(Number(newVal.toFixed(getDecimals())))
     }
 
     const handleReset = () => {
@@ -116,7 +123,7 @@ export const LabeledSlider: React.FC<LabeledSliderProps> = ({
                         "bg-background px-2 py-0.5 rounded-lg border text-center font-mono text-[10px] min-w-[50px]",
                         locked ? "text-muted-foreground" : "text-foreground"
                     )}>
-                        {value.toFixed(step < 1 ? 2 : 0)}{unit}
+                        {value.toFixed(getDecimals())}{unit}
                     </span>
                 </div>
             </div>
