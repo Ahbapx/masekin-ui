@@ -1,6 +1,4 @@
-import type {
-  ColorPickerGradientStop,
-} from "./color-picker-types";
+import type { ColorPickerGradientStop } from "./types";
 
 export const isHex = (raw: string) =>
   /^#([0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(raw.trim());

@@ -10,9 +10,9 @@ import React, {
 } from "react";
 import { createPortal } from "react-dom";
 
-import { Button } from "./button";
-import { Input } from "./input";
-import { Slider } from "./slider";
+import { Button } from "../button";
+import { Input } from "../input";
+import { Slider } from "../slider";
 import {
   bestStopIndex,
   clamp,
@@ -23,12 +23,12 @@ import {
   POPOVER_MIN_H,
   POPOVER_OFFSET,
   toHexFromHexInput,
-} from "./color-picker-utils";
+} from "./utils";
 import type {
   ColorPickerAdapter,
   ColorPickerGradientStop,
   ColorPickerPaint,
-} from "./color-picker-types";
+} from "./types";
 
 type PopoverPos =
   | {
