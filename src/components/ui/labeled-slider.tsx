@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Minus, Plus, Lock, Unlock, RotateCcw } from "lucide-react"
+import { Minus, Plus, Lock, Unlock, RotateCcw, Settings2 } from "lucide-react"
 import { Slider } from "./slider"
 import { cn } from "../../lib/utils"
 
@@ -23,6 +23,25 @@ export interface LabeledSliderProps {
     onPointerDown?: (e: React.PointerEvent) => void
 }
 
+export interface ThumbnailLabeledSliderProps {
+    label: string
+    value: number
+    min: number
+    max: number
+    step?: number
+    onChange: (val: number) => void
+    className?: string
+    unit?: string
+    defaultValue?: number
+    disabled?: boolean
+    thumbnailSrc?: string
+    thumbnailAlt?: string
+    thumbnailFallback?: React.ReactNode
+    meta?: React.ReactNode
+    onOpenPanel?: () => void
+    openButtonLabel?: string
+}
+
 const variantClasses = {
     default: "bg-secondary/20 hover:bg-secondary/30 border-border",
     accent: "bg-accent/20 hover:bg-accent/30 border-accent/30",
@@ -35,22 +54,23 @@ const variantClasses = {
     orange: "bg-brand-orange/10 hover:bg-brand-orange/20 border-brand-orange/20",
 }
 
-function LabeledSliderComponent({
-    label,
+function useSliderControls({
     value,
     min,
     max,
-    step = 1,
+    step,
     onChange,
-    className,
-    unit = "",
-    variant = "default",
-    lockId,
-    locked = false,
-    onToggleLock,
-    defaultValue,
-    onPointerDown
-}: LabeledSliderProps) {
+    locked,
+    defaultValue
+}: {
+    value: number
+    min: number
+    max: number
+    step: number
+    onChange: (val: number) => void
+    locked: boolean
+    defaultValue?: number
+}) {
     const decimals = React.useMemo(() => {
         if (step < 0.001) return 4;
         if (step < 0.01) return 3;
@@ -81,7 +101,48 @@ function LabeledSliderComponent({
         onChange(next)
     }, [onChange])
 
-    const showReset = defaultValue !== undefined && Math.abs(value - defaultValue) > 0.0001 && !locked
+    return {
+        decimals,
+        handleDecrease,
+        handleIncrease,
+        handleReset,
+        handleValueChange,
+        showReset: defaultValue !== undefined && Math.abs(value - defaultValue) > 0.0001 && !locked,
+    }
+}
+
+function LabeledSliderComponent({
+    label,
+    value,
+    min,
+    max,
+    step = 1,
+    onChange,
+    className,
+    unit = "",
+    variant = "default",
+    lockId,
+    locked = false,
+    onToggleLock,
+    defaultValue,
+    onPointerDown
+}: LabeledSliderProps) {
+    const {
+        decimals,
+        handleDecrease,
+        handleIncrease,
+        handleReset,
+        handleValueChange,
+        showReset,
+    } = useSliderControls({
+        value,
+        min,
+        max,
+        step,
+        onChange,
+        locked,
+        defaultValue
+    })
 
     return (
         <div
@@ -167,4 +228,165 @@ function LabeledSliderComponent({
     )
 }
 
+function ThumbnailLabeledSliderComponent({
+    label,
+    value,
+    min,
+    max,
+    step = 1,
+    onChange,
+    className,
+    unit = "",
+    defaultValue,
+    disabled = false,
+    thumbnailSrc,
+    thumbnailAlt = label,
+    thumbnailFallback,
+    meta,
+    onOpenPanel,
+    openButtonLabel = "Open panel",
+}: ThumbnailLabeledSliderProps) {
+    const [imageFailed, setImageFailed] = React.useState(false)
+    const [draftValue, setDraftValue] = React.useState<number>(value)
+    const {
+        decimals,
+        handleDecrease,
+        handleIncrease,
+        handleReset,
+        showReset,
+    } = useSliderControls({
+        value,
+        min,
+        max,
+        step,
+        onChange,
+        locked: disabled,
+        defaultValue
+    })
+
+    React.useEffect(() => {
+        setDraftValue(value)
+    }, [value])
+
+    const handleLiveChange = React.useCallback((nextValue: number[]) => {
+        const [next] = nextValue
+        if (typeof next !== "number" || disabled) return
+        setDraftValue(next)
+        onChange(next)
+    }, [disabled, onChange])
+
+    const showThumbnailImage = Boolean(thumbnailSrc) && !imageFailed
+
+    return (
+        <div
+            className={cn(
+                "group rounded-xl border border-border p-3 transition-colors duration-150",
+                disabled ? "bg-muted/30 opacity-75" : "bg-secondary/20 hover:bg-secondary/30",
+                className
+            )}
+        >
+            <div className="mb-3 flex items-center gap-3">
+                <span className="bg-background px-2 py-0.5 rounded-lg border text-center font-mono text-[10px] min-w-[50px] text-foreground shrink-0">
+                    {value.toFixed(decimals)}{unit}
+                </span>
+                <div className="min-w-0 flex-1">
+                    <label className={cn(
+                        "truncate text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5",
+                        disabled ? "text-muted-foreground" : "text-foreground"
+                    )}>
+                        {label}
+                        {disabled && <Lock size={10} className="text-muted-foreground" />}
+                    </label>
+                    {meta ? (
+                        <div className="mt-1 truncate font-mono text-[10px] text-muted-foreground">
+                            {meta}
+                        </div>
+                    ) : null}
+                </div>
+                <div className="flex items-center gap-1.5 shrink-0">
+                    {showReset && (
+                        <button
+                            type="button"
+                            onClick={handleReset}
+                            disabled={disabled}
+                            className={cn(
+                                "flex h-6 w-6 items-center justify-center rounded-md transition-colors",
+                                disabled
+                                    ? "opacity-60 cursor-not-allowed"
+                                    : "text-muted-foreground hover:bg-background/50 hover:text-foreground"
+                            )}
+                            title="Reset to default"
+                        >
+                            <RotateCcw size={10} />
+                        </button>
+                    )}
+                    {onOpenPanel ? (
+                        <button
+                            type="button"
+                            onClick={onOpenPanel}
+                            className="flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-background/50 hover:text-foreground"
+                            title={openButtonLabel}
+                        >
+                            <Settings2 size={10} />
+                        </button>
+                    ) : null}
+                </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+                {onOpenPanel ? (
+                    <button
+                        type="button"
+                        onClick={onOpenPanel}
+                        className="relative w-16 aspect-video shrink-0 overflow-hidden rounded-md border border-border bg-muted/30 text-left"
+                        title={openButtonLabel}
+                    >
+                        {showThumbnailImage ? (
+                            <img
+                                src={thumbnailSrc}
+                                alt={thumbnailAlt}
+                                className="h-full w-full object-cover"
+                                onError={() => setImageFailed(true)}
+                            />
+                        ) : (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                {thumbnailFallback}
+                            </div>
+                        )}
+                    </button>
+                ) : null}
+
+                <button
+                    onClick={handleDecrease}
+                    className="h-8 w-8 shrink-0 rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    type="button"
+                    disabled={disabled}
+                >
+                    <Minus size={14} />
+                </button>
+
+                <Slider
+                    value={[draftValue]}
+                    min={min}
+                    max={max}
+                    step={step}
+                    onValueChange={handleLiveChange}
+                    className="flex-1"
+                    disabled={disabled}
+                />
+
+                <button
+                    onClick={handleIncrease}
+                    className="h-8 w-8 shrink-0 rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    type="button"
+                    disabled={disabled}
+                >
+                    <Plus size={14} />
+                </button>
+            </div>
+        </div>
+    )
+}
+
 export const LabeledSlider = React.memo(LabeledSliderComponent)
+export const ThumbnailLabeledSlider = React.memo(ThumbnailLabeledSliderComponent)
