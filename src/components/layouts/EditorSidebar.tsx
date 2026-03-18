@@ -171,7 +171,7 @@ export function EditorSidebar({
         return (
             <aside
                 className={cn(
-                    "hidden bg-background shrink-0 overflow-hidden transition-all duration-200 md:block",
+                    "hidden shrink-0 overflow-hidden bg-background transition-[width] duration-200 md:block",
                     side === "left" ? "border-r-0" : "border-l-0",
                 )}
                 style={{ width: 0 }}
@@ -182,7 +182,7 @@ export function EditorSidebar({
     return (
         <aside
             className={cn(
-                "relative hidden h-full min-h-0 min-w-0 shrink-0 flex-col overflow-hidden border-border bg-sidebar transition-all duration-200 md:flex",
+                "relative hidden h-full min-h-0 min-w-0 shrink-0 flex-col overflow-hidden border-border bg-sidebar transition-[width] duration-200 md:flex",
                 side === "left" ? "border-r" : "border-l",
                 className,
             )}

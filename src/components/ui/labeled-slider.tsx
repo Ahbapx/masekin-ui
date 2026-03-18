@@ -35,7 +35,7 @@ const variantClasses = {
     orange: "bg-brand-orange/10 hover:bg-brand-orange/20 border-brand-orange/20",
 }
 
-export const LabeledSlider: React.FC<LabeledSliderProps> = ({
+function LabeledSliderComponent({
     label,
     value,
     min,
@@ -50,30 +50,36 @@ export const LabeledSlider: React.FC<LabeledSliderProps> = ({
     onToggleLock,
     defaultValue,
     onPointerDown
-}) => {
-    const getDecimals = () => {
+}: LabeledSliderProps) {
+    const decimals = React.useMemo(() => {
         if (step < 0.001) return 4;
         if (step < 0.01) return 3;
         if (step < 1) return 2;
         return 0;
-    };
+    }, [step]);
 
-    const handleDecrease = () => {
+    const handleDecrease = React.useCallback(() => {
         if (locked) return
         const newVal = Math.max(min, value - step)
-        onChange(Number(newVal.toFixed(getDecimals())))
-    }
+        onChange(Number(newVal.toFixed(decimals)))
+    }, [decimals, locked, min, onChange, step, value])
 
-    const handleIncrease = () => {
+    const handleIncrease = React.useCallback(() => {
         if (locked) return
         const newVal = Math.min(max, value + step)
-        onChange(Number(newVal.toFixed(getDecimals())))
-    }
+        onChange(Number(newVal.toFixed(decimals)))
+    }, [decimals, locked, max, onChange, step, value])
 
-    const handleReset = () => {
+    const handleReset = React.useCallback(() => {
         if (locked || defaultValue === undefined) return
         onChange(defaultValue)
-    }
+    }, [defaultValue, locked, onChange])
+
+    const handleValueChange = React.useCallback((nextValue: number[]) => {
+        const [next] = nextValue
+        if (typeof next !== "number") return
+        onChange(next)
+    }, [onChange])
 
     const showReset = defaultValue !== undefined && Math.abs(value - defaultValue) > 0.0001 && !locked
 
@@ -81,7 +87,7 @@ export const LabeledSlider: React.FC<LabeledSliderProps> = ({
         <div
             onPointerDown={onPointerDown}
             className={cn(
-                "p-3 border rounded-xl transition-all duration-200 group",
+                "group rounded-xl border p-3 transition-colors duration-150",
                 variantClasses[variant],
                 locked && "opacity-60 border-dashed",
                 className
@@ -96,7 +102,7 @@ export const LabeledSlider: React.FC<LabeledSliderProps> = ({
                         <button
                             type="button"
                             onClick={handleReset}
-                            className="p-1 rounded-md hover:bg-background/50 text-muted-foreground hover:text-foreground transition-colors"
+                            className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-background/50 hover:text-foreground"
                             title="Reset to default"
                         >
                             <RotateCcw size={12} />
@@ -108,7 +114,7 @@ export const LabeledSlider: React.FC<LabeledSliderProps> = ({
                             type="button"
                             onClick={() => onToggleLock(lockId)}
                             className={cn(
-                                "p-1 rounded-md transition-all",
+                                "rounded-md p-1 transition-colors",
                                 locked
                                     ? "bg-primary text-primary-foreground shadow-sm"
                                     : "text-muted-foreground hover:text-foreground hover:bg-background/50"
@@ -123,7 +129,7 @@ export const LabeledSlider: React.FC<LabeledSliderProps> = ({
                         "bg-background px-2 py-0.5 rounded-lg border text-center font-mono text-[10px] min-w-[50px]",
                         locked ? "text-muted-foreground" : "text-foreground"
                     )}>
-                        {value.toFixed(getDecimals())}{unit}
+                        {value.toFixed(decimals)}{unit}
                     </span>
                 </div>
             </div>
@@ -131,7 +137,7 @@ export const LabeledSlider: React.FC<LabeledSliderProps> = ({
             <div className={cn("flex items-center gap-3", locked && "hidden")}>
                 <button
                     onClick={handleDecrease}
-                    className="w-8 h-8 flex items-center justify-center bg-background border rounded-full hover:bg-muted active:scale-95 transition-all text-muted-foreground hover:text-foreground shrink-0"
+                    className="h-8 w-8 shrink-0 rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                     type="button"
                     disabled={locked}
                 >
@@ -143,14 +149,14 @@ export const LabeledSlider: React.FC<LabeledSliderProps> = ({
                     min={min}
                     max={max}
                     step={step}
-                    onValueChange={([val]) => onChange(val)}
+                    onValueChange={handleValueChange}
                     className="flex-1"
                     disabled={locked}
                 />
 
                 <button
                     onClick={handleIncrease}
-                    className="w-8 h-8 flex items-center justify-center bg-background border rounded-full hover:bg-muted active:scale-95 transition-all text-muted-foreground hover:text-foreground shrink-0"
+                    className="h-8 w-8 shrink-0 rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                     type="button"
                     disabled={locked}
                 >
@@ -160,3 +166,5 @@ export const LabeledSlider: React.FC<LabeledSliderProps> = ({
         </div>
     )
 }
+
+export const LabeledSlider = React.memo(LabeledSliderComponent)
