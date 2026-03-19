@@ -148,7 +148,7 @@ function LabeledSliderComponent({
         <div
             onPointerDown={onPointerDown}
             className={cn(
-                "group rounded-xl border p-3 transition-colors duration-150",
+                "group rounded-xl border p-3 transition-colors duration-150 [contain:layout_paint]",
                 variantClasses[variant],
                 locked && "opacity-60 border-dashed",
                 className
@@ -159,16 +159,19 @@ function LabeledSliderComponent({
                 </label>
 
                 <div className="flex items-center gap-1.5 shrink-0">
-                    {showReset && (
-                        <button
-                            type="button"
-                            onClick={handleReset}
-                            className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-background/50 hover:text-foreground"
-                            title="Reset to default"
-                        >
-                            <RotateCcw size={12} />
-                        </button>
-                    )}
+                    <button
+                        type="button"
+                        onClick={handleReset}
+                        className={cn(
+                            "rounded-md p-1 text-muted-foreground transition-colors hover:bg-background/50 hover:text-foreground",
+                            showReset ? "visible" : "invisible pointer-events-none"
+                        )}
+                        title="Reset to default"
+                        aria-hidden={!showReset}
+                        tabIndex={showReset ? 0 : -1}
+                    >
+                        <RotateCcw size={12} />
+                    </button>
 
                     {lockId && onToggleLock && (
                         <button
@@ -280,7 +283,7 @@ function ThumbnailLabeledSliderComponent({
     return (
         <div
             className={cn(
-                "group rounded-xl border border-border p-3 transition-colors duration-150",
+                "group rounded-xl border border-border p-3 transition-colors duration-150 [contain:layout_paint]",
                 disabled ? "bg-muted/30 opacity-75" : "bg-secondary/20 hover:bg-secondary/30",
                 className
             )}
@@ -304,22 +307,23 @@ function ThumbnailLabeledSliderComponent({
                     ) : null}
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
-                    {showReset && (
-                        <button
-                            type="button"
-                            onClick={handleReset}
-                            disabled={disabled}
-                            className={cn(
-                                "flex h-6 w-6 items-center justify-center rounded-md transition-colors",
-                                disabled
-                                    ? "opacity-60 cursor-not-allowed"
-                                    : "text-muted-foreground hover:bg-background/50 hover:text-foreground"
-                            )}
-                            title="Reset to default"
-                        >
-                            <RotateCcw size={10} />
-                        </button>
-                    )}
+                    <button
+                        type="button"
+                        onClick={handleReset}
+                        disabled={disabled || !showReset}
+                        className={cn(
+                            "flex h-6 w-6 items-center justify-center rounded-md transition-colors",
+                            disabled
+                                ? "opacity-60 cursor-not-allowed"
+                                : "text-muted-foreground hover:bg-background/50 hover:text-foreground",
+                            showReset ? "visible" : "invisible"
+                        )}
+                        title="Reset to default"
+                        aria-hidden={!showReset}
+                        tabIndex={showReset ? 0 : -1}
+                    >
+                        <RotateCcw size={10} />
+                    </button>
                     {onOpenPanel ? (
                         <button
                             type="button"
