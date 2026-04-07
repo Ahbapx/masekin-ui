@@ -64,14 +64,14 @@ function SidebarBody({
     const thinbarPosition = thinbar?.position ?? "right";
 
     const mainContent = (
-        <SidebarContent className="h-full min-h-0 min-w-0 flex-1 gap-0 overflow-hidden p-0">
+        <SidebarContent className="h-full min-h-0 min-w-0 w-full flex-1 gap-0 overflow-hidden p-0">
             <ScrollArea
-                className={cn("editor-sidebar-scroll-area h-full min-h-0 min-w-0 flex-1", scrollAreaClassName)}
-                viewportClassName={cn("editor-sidebar-scroll-viewport h-full min-w-0", scrollViewportClassName)}
+                className={cn("editor-sidebar-scroll-area h-full min-h-0 min-w-0 w-full flex-1", scrollAreaClassName)}
+                viewportClassName={cn("editor-sidebar-scroll-viewport h-full w-full", scrollViewportClassName)}
             >
                 <div
                     className={cn(
-                        "box-border min-h-full w-full max-w-full min-w-0 overflow-x-hidden",
+                        "box-border h-full w-full max-w-full min-w-0 overflow-x-hidden",
                         contentClassName,
                     )}
                 >
@@ -81,23 +81,6 @@ function SidebarBody({
         </SidebarContent>
     );
 
-    const thinbarNode = thinbar ? (
-        <div
-            className="h-full min-h-0 shrink-0 overflow-hidden"
-            onWheel={(event) => {
-                event.preventDefault();
-            }}
-        >
-            <SidebarThinbar
-                tabs={thinbar.tabs}
-                activeTab={thinbar.activeTab}
-                onTabChange={thinbar.onTabChange}
-                position={thinbarPosition}
-                className={thinbar.className}
-            />
-        </div>
-    ) : null;
-
     return (
         <div className="flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
             {header && (
@@ -106,19 +89,28 @@ function SidebarBody({
                 </SidebarHeader>
             )}
 
-            <div
-                className={cn(
-                    "grid h-full flex-1 min-h-0 min-w-0 overflow-hidden",
-                    thinbar
-                        ? (thinbarPosition === "left"
-                            ? "grid-cols-[auto_minmax(0,1fr)]"
-                            : "grid-cols-[minmax(0,1fr)_auto]")
-                        : "grid-cols-1",
+            <div className="flex h-full flex-1 min-h-0 min-w-0 overflow-hidden">
+                {thinbar && thinbarPosition === "left" && (
+                    <SidebarThinbar
+                        tabs={thinbar.tabs}
+                        activeTab={thinbar.activeTab}
+                        onTabChange={thinbar.onTabChange}
+                        position="left"
+                        className={thinbar.className}
+                    />
                 )}
-            >
-                {thinbar && thinbarPosition === "left" ? thinbarNode : null}
+
                 {mainContent}
-                {thinbar && thinbarPosition === "right" ? thinbarNode : null}
+
+                {thinbar && thinbarPosition === "right" && (
+                    <SidebarThinbar
+                        tabs={thinbar.tabs}
+                        activeTab={thinbar.activeTab}
+                        onTabChange={thinbar.onTabChange}
+                        position="right"
+                        className={thinbar.className}
+                    />
+                )}
             </div>
 
             {footer && (
