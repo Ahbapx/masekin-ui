@@ -40,6 +40,7 @@ export interface EditorSidebarProps {
     scrollAreaClassName?: string;
     scrollViewportClassName?: string;
     contentClassName?: string;
+    disableScrollArea?: boolean;
     thinbar?: EditorSidebarThinbarConfig;
 }
 
@@ -50,6 +51,7 @@ function SidebarBody({
     scrollAreaClassName,
     scrollViewportClassName,
     contentClassName,
+    disableScrollArea,
     thinbar,
 }: Pick<
     EditorSidebarProps,
@@ -59,25 +61,37 @@ function SidebarBody({
     | "scrollAreaClassName"
     | "scrollViewportClassName"
     | "contentClassName"
+    | "disableScrollArea"
     | "thinbar"
 >) {
     const thinbarPosition = thinbar?.position ?? "right";
 
     const mainContent = (
         <SidebarContent className="h-full min-h-0 min-w-0 w-full flex-1 gap-0 overflow-hidden p-0">
-            <ScrollArea
-                className={cn("editor-sidebar-scroll-area h-full min-h-0 min-w-0 w-full flex-1", scrollAreaClassName)}
-                viewportClassName={cn("editor-sidebar-scroll-viewport h-full w-full", scrollViewportClassName)}
-            >
+            {disableScrollArea ? (
                 <div
                     className={cn(
-                        "box-border h-full w-full max-w-full min-w-0 overflow-x-hidden",
+                        "editor-sidebar-content-shell box-border h-full w-full max-w-full min-w-0 overflow-hidden",
                         contentClassName,
                     )}
                 >
                     {content}
                 </div>
-            </ScrollArea>
+            ) : (
+                <ScrollArea
+                    className={cn("editor-sidebar-scroll-area h-full min-h-0 min-w-0 w-full flex-1", scrollAreaClassName)}
+                    viewportClassName={cn("editor-sidebar-scroll-viewport h-full w-full", scrollViewportClassName)}
+                >
+                    <div
+                        className={cn(
+                            "box-border h-full w-full max-w-full min-w-0 overflow-x-hidden",
+                            contentClassName,
+                        )}
+                    >
+                        {content}
+                    </div>
+                </ScrollArea>
+            )}
         </SidebarContent>
     );
 
@@ -137,6 +151,7 @@ export function EditorSidebar({
     scrollAreaClassName,
     scrollViewportClassName,
     contentClassName,
+    disableScrollArea,
     thinbar,
 }: EditorSidebarProps) {
     const resolvedWidth = typeof width === "number" ? `${width}px` : (width ?? "300px");
@@ -160,6 +175,7 @@ export function EditorSidebar({
                         scrollAreaClassName={scrollAreaClassName}
                         scrollViewportClassName={scrollViewportClassName}
                         contentClassName={contentClassName}
+                        disableScrollArea={disableScrollArea}
                         thinbar={thinbar}
                     />
                 </SheetContent>
@@ -195,6 +211,7 @@ export function EditorSidebar({
                 scrollAreaClassName={scrollAreaClassName}
                 scrollViewportClassName={scrollViewportClassName}
                 contentClassName={contentClassName}
+                disableScrollArea={disableScrollArea}
                 thinbar={thinbar}
             />
         </aside>

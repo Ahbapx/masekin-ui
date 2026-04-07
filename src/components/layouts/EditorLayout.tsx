@@ -45,6 +45,8 @@ export interface SidebarConfig {
     scrollViewportClassName?: string;
     /** Custom className for the inner sidebar content wrapper */
     contentClassName?: string;
+    /** Disable outer sidebar ScrollArea when content manages its own scrolling */
+    disableScrollArea?: boolean;
 }
 
 export interface TopbarConfig {
@@ -252,6 +254,7 @@ export function EditorLayout({
                             scrollAreaClassName={leftSidebar.scrollAreaClassName}
                             scrollViewportClassName={leftSidebar.scrollViewportClassName}
                             contentClassName={leftSidebar.contentClassName}
+                            disableScrollArea={leftSidebar.disableScrollArea}
                         />
                     )}
 
@@ -331,6 +334,7 @@ export function EditorLayout({
                             scrollAreaClassName={rightSidebar.scrollAreaClassName}
                             scrollViewportClassName={rightSidebar.scrollViewportClassName}
                             contentClassName={rightSidebar.contentClassName}
+                            disableScrollArea={rightSidebar.disableScrollArea}
                         />
                     )}
                 </div>
