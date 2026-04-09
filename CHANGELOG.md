@@ -8,6 +8,12 @@ This project follows a simple Keep a Changelog style and SemVer-inspired version
 
 - No unreleased entries yet.
 
+## [0.1.20] - 2026-04-09
+
+- Added minimal editor architecture documentation:
+  - `docs/EDITOR_LAYOUT_GUIDE.md`
+- Linked editor layout guide from package README.
+
 ## [0.1.2] - 2026-02-19
 
 - Fixed typed-route compatibility in shared marketing components:

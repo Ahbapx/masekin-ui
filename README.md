@@ -5,6 +5,10 @@
 
 Shared UI package for Masekin apps.
 
+## Docs
+
+- Editor layout guidance: `docs/EDITOR_LAYOUT_GUIDE.md`
+
 ## Attribution
 
 This package is a shared wrapper/customization layer built on top of
@@ -21,5 +25,5 @@ This package is a shared wrapper/customization layer built on top of
 ## Install (Git tag)
 
 ```bash
-npm i github:Ahbapx/masekin-ui#v0.1.2
+npm i github:Ahbapx/masekin-ui#v0.1.20
 ```
