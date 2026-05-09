@@ -25,6 +25,8 @@ export interface SidebarThinbarProps {
     onTabChange: (tabId: string) => void
     /** Position of the thinbar relative to sidebar content */
     position?: "left" | "right"
+    /** Render visible text labels next to icons */
+    showLabels?: boolean
     /** Custom className for the container */
     className?: string
 }
@@ -38,12 +40,14 @@ export const SidebarThinbar: React.FC<SidebarThinbarProps> = ({
     activeTab,
     onTabChange,
     position = "right",
+    showLabels = false,
     className,
 }) => {
     return (
         <div
             className={cn(
-                "h-full min-h-0 w-10 shrink-0 self-stretch bg-muted/50 flex flex-col items-center py-3 gap-1",
+                "h-full min-h-0 shrink-0 self-stretch bg-muted/50 flex flex-col py-3 gap-1",
+                showLabels ? "w-32 items-stretch px-1.5" : "w-10 items-center",
                 position === "left" ? "border-r border-border" : "border-l border-border",
                 className
             )}
@@ -57,7 +61,8 @@ export const SidebarThinbar: React.FC<SidebarThinbarProps> = ({
                         key={tab.id}
                         onClick={() => onTabChange(tab.id)}
                         className={cn(
-                            "w-8 h-8 flex items-center justify-center rounded-md transition-all",
+                            "h-8 flex min-w-0 items-center rounded-md transition-all",
+                            showLabels ? "w-full justify-start gap-2 px-2" : "w-8 justify-center",
                             isActive
                                 ? "bg-background border border-border shadow-sm text-foreground"
                                 : "text-muted-foreground hover:text-foreground hover:bg-background/50"
@@ -66,7 +71,12 @@ export const SidebarThinbar: React.FC<SidebarThinbarProps> = ({
                         aria-label={tab.label}
                         aria-pressed={isActive}
                     >
-                        <Icon className="w-4 h-4" strokeWidth={2} />
+                        <Icon className="h-4 w-4 shrink-0" strokeWidth={2} />
+                        {showLabels ? (
+                            <span className="min-w-0 truncate text-[11px] font-medium leading-none">
+                                {tab.label}
+                            </span>
+                        ) : null}
                     </button>
                 )
             })}
@@ -89,6 +99,8 @@ export interface TabbedSidebarProps {
     children: React.ReactNode
     /** Position of thinbar (left or right side of content) */
     thinbarPosition?: "left" | "right"
+    /** Render visible text labels in the thinbar */
+    showThinbarLabels?: boolean
     /** Width of the content area */
     contentWidth?: number | string
     /** Custom className for container */
@@ -101,6 +113,7 @@ export const TabbedSidebar: React.FC<TabbedSidebarProps> = ({
     onTabChange,
     children,
     thinbarPosition = "right",
+    showThinbarLabels = false,
     contentWidth = 200,
     className,
 }) => {
@@ -114,6 +127,7 @@ export const TabbedSidebar: React.FC<TabbedSidebarProps> = ({
                     activeTab={activeTab}
                     onTabChange={onTabChange}
                     position="left"
+                    showLabels={showThinbarLabels}
                 />
             )}
 
@@ -130,6 +144,7 @@ export const TabbedSidebar: React.FC<TabbedSidebarProps> = ({
                     activeTab={activeTab}
                     onTabChange={onTabChange}
                     position="right"
+                    showLabels={showThinbarLabels}
                 />
             )}
         </div>

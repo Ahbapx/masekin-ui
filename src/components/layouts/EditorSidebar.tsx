@@ -22,6 +22,7 @@ export interface EditorSidebarThinbarConfig {
     activeTab: string;
     onTabChange: (tabId: string) => void;
     position?: "left" | "right";
+    showLabels?: boolean;
     className?: string;
 }
 
@@ -96,6 +97,7 @@ function SidebarBody({
                         activeTab={thinbar.activeTab}
                         onTabChange={thinbar.onTabChange}
                         position="left"
+                        showLabels={thinbar.showLabels}
                         className={thinbar.className}
                     />
                 )}
@@ -108,6 +110,7 @@ function SidebarBody({
                         activeTab={thinbar.activeTab}
                         onTabChange={thinbar.onTabChange}
                         position="right"
+                        showLabels={thinbar.showLabels}
                         className={thinbar.className}
                     />
                 )}
