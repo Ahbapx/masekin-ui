@@ -47,7 +47,7 @@ export const SidebarThinbar: React.FC<SidebarThinbarProps> = ({
         <div
             className={cn(
                 "h-full min-h-0 shrink-0 self-stretch bg-muted/50 flex flex-col py-3 gap-1",
-                showLabels ? "w-32 items-stretch px-1.5" : "w-10 items-center",
+                showLabels ? "w-16 items-stretch px-1" : "w-10 items-center",
                 position === "left" ? "border-r border-border" : "border-l border-border",
                 className
             )}
@@ -61,8 +61,8 @@ export const SidebarThinbar: React.FC<SidebarThinbarProps> = ({
                         key={tab.id}
                         onClick={() => onTabChange(tab.id)}
                         className={cn(
-                            "h-8 flex min-w-0 items-center rounded-md transition-all",
-                            showLabels ? "w-full justify-start gap-2 px-2" : "w-8 justify-center",
+                            "flex min-w-0 items-center rounded-md transition-all",
+                            showLabels ? "w-full flex-col justify-center gap-1 px-1 py-1.5" : "h-8 w-8 justify-center",
                             isActive
                                 ? "bg-background border border-border shadow-sm text-foreground"
                                 : "text-muted-foreground hover:text-foreground hover:bg-background/50"
@@ -73,7 +73,7 @@ export const SidebarThinbar: React.FC<SidebarThinbarProps> = ({
                     >
                         <Icon className="h-4 w-4 shrink-0" strokeWidth={2} />
                         {showLabels ? (
-                            <span className="min-w-0 truncate text-[11px] font-medium leading-none">
+                            <span className="max-w-full truncate text-center text-[10px] font-medium leading-none">
                                 {tab.label}
                             </span>
                         ) : null}
