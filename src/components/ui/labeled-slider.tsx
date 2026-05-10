@@ -127,6 +127,8 @@ function LabeledSliderComponent({
     defaultValue,
     onPointerDown
 }: LabeledSliderProps) {
+    const [draftValue, setDraftValue] = React.useState<string>(`${value}`)
+
     const {
         decimals,
         handleDecrease,
@@ -143,6 +145,24 @@ function LabeledSliderComponent({
         locked,
         defaultValue
     })
+    const formatValue = React.useCallback((next: number) => `${next.toFixed(decimals)}`, [decimals])
+
+    React.useEffect(() => {
+        setDraftValue(formatValue(value))
+    }, [formatValue, value])
+
+    const commitInputValue = React.useCallback(() => {
+        if (locked) return
+        const parsed = Number.parseFloat(draftValue)
+        if (!Number.isFinite(parsed)) {
+            setDraftValue(formatValue(value))
+            return
+        }
+        const clamped = Math.min(max, Math.max(min, parsed))
+        const normalized = Number(clamped.toFixed(decimals))
+        onChange(normalized)
+        setDraftValue(formatValue(normalized))
+    }, [decimals, draftValue, formatValue, locked, max, min, onChange, value])
 
     return (
         <div
@@ -189,19 +209,39 @@ function LabeledSliderComponent({
                         </button>
                     )}
 
-                    <span className={cn(
-                        "bg-background px-2 py-0.5 rounded-lg border text-center font-mono text-[10px] min-w-[50px]",
-                        locked ? "text-muted-foreground" : "text-foreground"
-                    )}>
-                        {value.toFixed(decimals)}{unit}
-                    </span>
+                    <div className="flex items-center gap-1 rounded-lg border bg-background px-2 py-0.5">
+                        <input
+                            type="number"
+                            value={draftValue}
+                            min={min}
+                            max={max}
+                            step={step}
+                            disabled={locked}
+                            onChange={(event) => setDraftValue(event.target.value)}
+                            onBlur={commitInputValue}
+                            onKeyDown={(event) => {
+                                if (event.key === "Enter") {
+                                    event.currentTarget.blur()
+                                }
+                            }}
+                            className={cn(
+                                "w-[52px] bg-transparent text-center font-mono text-[10px] outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
+                                locked ? "text-muted-foreground" : "text-foreground"
+                            )}
+                        />
+                        {unit ? (
+                            <span className={cn("font-mono text-[10px]", locked ? "text-muted-foreground" : "text-foreground")}>
+                                {unit}
+                            </span>
+                        ) : null}
+                    </div>
                 </div>
             </div>
 
             <div className={cn("flex items-center gap-3", locked && "hidden")}>
                 <button
                     onClick={handleDecrease}
-                    className="h-8 w-8 shrink-0 rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                     type="button"
                     disabled={locked}
                 >
@@ -220,7 +260,7 @@ function LabeledSliderComponent({
 
                 <button
                     onClick={handleIncrease}
-                    className="h-8 w-8 shrink-0 rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                     type="button"
                     disabled={locked}
                 >
@@ -251,6 +291,7 @@ function ThumbnailLabeledSliderComponent({
 }: ThumbnailLabeledSliderProps) {
     const [imageFailed, setImageFailed] = React.useState(false)
     const [draftValue, setDraftValue] = React.useState<number>(value)
+    const [draftInputValue, setDraftInputValue] = React.useState<string>(`${value}`)
     const {
         decimals,
         handleDecrease,
@@ -266,17 +307,34 @@ function ThumbnailLabeledSliderComponent({
         locked: disabled,
         defaultValue
     })
+    const formatValue = React.useCallback((next: number) => `${next.toFixed(decimals)}`, [decimals])
 
     React.useEffect(() => {
         setDraftValue(value)
-    }, [value])
+        setDraftInputValue(formatValue(value))
+    }, [formatValue, value])
 
     const handleLiveChange = React.useCallback((nextValue: number[]) => {
         const [next] = nextValue
         if (typeof next !== "number" || disabled) return
         setDraftValue(next)
+        setDraftInputValue(formatValue(next))
         onChange(next)
-    }, [disabled, onChange])
+    }, [disabled, formatValue, onChange])
+
+    const commitInputValue = React.useCallback(() => {
+        if (disabled) return
+        const parsed = Number.parseFloat(draftInputValue)
+        if (!Number.isFinite(parsed)) {
+            setDraftInputValue(formatValue(value))
+            return
+        }
+        const clamped = Math.min(max, Math.max(min, parsed))
+        const normalized = Number(clamped.toFixed(decimals))
+        setDraftValue(normalized)
+        setDraftInputValue(formatValue(normalized))
+        onChange(normalized)
+    }, [decimals, disabled, draftInputValue, formatValue, max, min, onChange, value])
 
     const showThumbnailImage = Boolean(thumbnailSrc) && !imageFailed
 
@@ -289,9 +347,25 @@ function ThumbnailLabeledSliderComponent({
             )}
         >
             <div className="mb-3 flex items-center gap-3">
-                <span className="bg-background px-2 py-0.5 rounded-lg border text-center font-mono text-[10px] min-w-[50px] text-foreground shrink-0">
-                    {value.toFixed(decimals)}{unit}
-                </span>
+                <div className="flex shrink-0 items-center gap-1 rounded-lg border bg-background px-2 py-0.5">
+                    <input
+                        type="number"
+                        value={draftInputValue}
+                        min={min}
+                        max={max}
+                        step={step}
+                        disabled={disabled}
+                        onChange={(event) => setDraftInputValue(event.target.value)}
+                        onBlur={commitInputValue}
+                        onKeyDown={(event) => {
+                            if (event.key === "Enter") {
+                                event.currentTarget.blur()
+                            }
+                        }}
+                        className="w-[52px] bg-transparent text-center font-mono text-[10px] text-foreground outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                    />
+                    {unit ? <span className="font-mono text-[10px] text-foreground">{unit}</span> : null}
+                </div>
                 <div className="min-w-0 flex-1">
                     <label className={cn(
                         "truncate text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5",
@@ -362,7 +436,7 @@ function ThumbnailLabeledSliderComponent({
 
                 <button
                     onClick={handleDecrease}
-                    className="h-8 w-8 shrink-0 rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                     type="button"
                     disabled={disabled}
                 >
@@ -381,7 +455,7 @@ function ThumbnailLabeledSliderComponent({
 
                 <button
                     onClick={handleIncrease}
-                    className="h-8 w-8 shrink-0 rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                     type="button"
                     disabled={disabled}
                 >
