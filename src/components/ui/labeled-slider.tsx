@@ -420,6 +420,7 @@ function ThumbnailLabeledSliderComponent({
                         title={openButtonLabel}
                     >
                         {showThumbnailImage ? (
+                            // eslint-disable-next-line @next/next/no-img-element -- Shared UI thumbnails may be blob/data/external URLs outside a consumer's Next image config.
                             <img
                                 src={thumbnailSrc}
                                 alt={thumbnailAlt}
