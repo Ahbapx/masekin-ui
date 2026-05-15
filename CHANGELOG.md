@@ -8,6 +8,14 @@ This project follows a simple Keep a Changelog style and SemVer-inspired version
 
 - No unreleased entries yet.
 
+## [0.1.24] - 2026-05-15
+
+- Added a committed npm lockfile so installs and audits are reproducible.
+- Updated local validation dependencies to the May 2026 patched Next/React baseline.
+- Added package overrides for patched `postcss`, `react`, and `react-dom` versions.
+- Documented the shared thumbnail image lint exception.
+- Added `SameSite=Lax` to the sidebar state cookie.
+
 ## [0.1.20] - 2026-04-09
 
 - Added minimal editor architecture documentation:
