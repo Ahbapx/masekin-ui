@@ -8,6 +8,11 @@ This project follows a simple Keep a Changelog style and SemVer-inspired version
 
 - No unreleased entries yet.
 
+## [0.1.29] - 2026-06-27
+
+- Increased slider active range fill opacity to `bg-primary/50` (up by 20%).
+- Reduced opacity of track vertical line ticks by 20% using CSS `color-mix` with transparent.
+
 ## [0.1.28] - 2026-06-27
 
 - Removed visual slider thumb entirely (making it hidden but retaining keyboard/accessibility support).
