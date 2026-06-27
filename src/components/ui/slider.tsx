@@ -24,9 +24,9 @@ const Slider = React.forwardRef<
                     backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 9px, var(--border) 9px, var(--border) 10px)`
                 }}
             />
-            <SliderPrimitive.Range className="absolute h-full bg-primary border-r border-primary" />
+            <SliderPrimitive.Range className="absolute h-full bg-primary/30 border-r border-primary/40" />
         </SliderPrimitive.Track>
-        <SliderPrimitive.Thumb className="flex h-6 w-[2px] bg-primary ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
+        <SliderPrimitive.Thumb className="w-0 h-0 opacity-0 pointer-events-none focus-visible:outline-none" />
     </SliderPrimitive.Root>
 ))
 Slider.displayName = SliderPrimitive.Root.displayName

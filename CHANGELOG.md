@@ -8,6 +8,11 @@ This project follows a simple Keep a Changelog style and SemVer-inspired version
 
 - No unreleased entries yet.
 
+## [0.1.28] - 2026-06-27
+
+- Removed visual slider thumb entirely (making it hidden but retaining keyboard/accessibility support).
+- Switched range fill opacity to a clean `bg-primary/30` with a `border-r border-primary/40` edge boundary line for a modern, sleek minimalist progress feel.
+
 ## [0.1.27] - 2026-06-27
 
 - Applied `overflow-hidden rounded-lg` mask to the Slider Root to clip the vertical thumb line at the capsule boundaries.
