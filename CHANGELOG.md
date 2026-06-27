@@ -8,6 +8,10 @@ This project follows a simple Keep a Changelog style and SemVer-inspired version
 
 - No unreleased entries yet.
 
+## [0.1.30] - 2026-06-27
+
+- Restored range fill opacity and vertical line tick opacity to the optimal visual layout of v0.1.28.
+
 ## [0.1.29] - 2026-06-27
 
 - Increased slider active range fill opacity to `bg-primary/50` (up by 20%).

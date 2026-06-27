@@ -21,10 +21,10 @@ const Slider = React.forwardRef<
             <div 
                 className="absolute inset-y-[17.5%] inset-x-0 pointer-events-none" 
                 style={{
-                    backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 9px, color-mix(in srgb, var(--border) 80%, transparent) 9px, color-mix(in srgb, var(--border) 80%, transparent) 10px)`
+                    backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 9px, var(--border) 9px, var(--border) 10px)`
                 }}
             />
-            <SliderPrimitive.Range className="absolute h-full bg-primary/50 border-r border-primary/60" />
+            <SliderPrimitive.Range className="absolute h-full bg-primary/30 border-r border-primary/40" />
         </SliderPrimitive.Track>
         <SliderPrimitive.Thumb className="w-0 h-0 opacity-0 pointer-events-none focus-visible:outline-none" />
     </SliderPrimitive.Root>
