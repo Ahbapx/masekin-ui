@@ -8,6 +8,14 @@ This project follows a simple Keep a Changelog style and SemVer-inspired version
 
 - No unreleased entries yet.
 
+## [0.1.26] - 2026-06-27
+
+- Moved labeled slider input element to the right end of the slider track.
+- Styled input element to have matching height (h-6) and capsule visual style as the slider.
+- Vertically stacked the input's plus/minus buttons on its right end.
+- Removed cross-hatching fill from the slider, replacing it with a solid mid-opacity fill.
+- Adjusted vertical stripes/ticks of the slider track to be 75% of the track height.
+
 ## [0.1.25] - 2026-06-27
 
 - Labeled slider text now wraps words properly (`break-words whitespace-normal`).
