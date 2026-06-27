@@ -8,6 +8,11 @@ This project follows a simple Keep a Changelog style and SemVer-inspired version
 
 - No unreleased entries yet.
 
+## [0.1.32] - 2026-06-27
+
+- Added `select-none` style class to labeled slider container wrappers to prevent text selection during slider drags (leaving input fields selectable).
+- Updated slider range fill opacity bounds to 10% min and 50% max.
+
 ## [0.1.31] - 2026-06-27
 
 - Implemented dynamic value-dependent range fill opacity (mapping linearly from 15% opacity at minimum capacity to 80% opacity at maximum capacity).

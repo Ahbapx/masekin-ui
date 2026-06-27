@@ -15,7 +15,7 @@ const Slider = React.forwardRef<
     
     const range = max - min
     const percentage = range > 0 ? (currentValue - min) / range : 0
-    const opacity = 0.15 + percentage * (0.80 - 0.15)
+    const opacity = 0.10 + percentage * (0.50 - 0.10)
 
     return (
         <SliderPrimitive.Root

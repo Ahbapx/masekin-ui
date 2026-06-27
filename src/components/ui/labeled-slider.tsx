@@ -168,7 +168,7 @@ function LabeledSliderComponent({
         <div
             onPointerDown={onPointerDown}
             className={cn(
-                "group rounded-xl border p-3 transition-colors duration-150 [contain:layout_paint]",
+                "group rounded-xl border p-3 transition-colors duration-150 [contain:layout_paint] select-none",
                 variantClasses[variant],
                 locked && "opacity-60 border-dashed",
                 className
@@ -344,7 +344,7 @@ function ThumbnailLabeledSliderComponent({
     return (
         <div
             className={cn(
-                "group rounded-xl border border-border p-3 transition-colors duration-150 [contain:layout_paint]",
+                "group rounded-xl border border-border p-3 transition-colors duration-150 [contain:layout_paint] select-none",
                 disabled ? "bg-muted/30 opacity-75" : "bg-secondary/20 hover:bg-secondary/30",
                 className
             )}
