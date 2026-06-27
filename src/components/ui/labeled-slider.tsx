@@ -173,8 +173,8 @@ function LabeledSliderComponent({
                 locked && "opacity-60 border-dashed",
                 className
             )}>
-            <div className="flex justify-between mb-2 font-bold text-[10px] uppercase tracking-wider items-center">
-                <label className={cn("truncate mr-2", locked ? "text-muted-foreground" : "text-foreground")}>
+            <div className="flex justify-between mb-2 font-bold text-[10px] uppercase tracking-wider items-center gap-2">
+                <label className={cn("break-words whitespace-normal mr-2 min-w-0 flex-1", locked ? "text-muted-foreground" : "text-foreground")}>
                     {label}
                 </label>
 
@@ -209,7 +209,15 @@ function LabeledSliderComponent({
                         </button>
                     )}
 
-                    <div className="flex items-center gap-1 rounded-lg border bg-background px-2 py-0.5">
+                    <div className="flex items-center gap-1 rounded-lg border bg-background px-1.5 py-0.5">
+                        <button
+                            type="button"
+                            onClick={handleDecrease}
+                            disabled={locked}
+                            className="text-muted-foreground hover:text-foreground hover:bg-muted rounded p-0.5 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                        >
+                            <Minus size={10} />
+                        </button>
                         <input
                             type="number"
                             value={draftValue}
@@ -225,12 +233,20 @@ function LabeledSliderComponent({
                                 }
                             }}
                             className={cn(
-                                "w-[52px] bg-transparent text-center font-mono text-[10px] outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
+                                "w-[40px] bg-transparent text-center font-mono text-[10px] outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
                                 locked ? "text-muted-foreground" : "text-foreground"
                             )}
                         />
+                        <button
+                            type="button"
+                            onClick={handleIncrease}
+                            disabled={locked}
+                            className="text-muted-foreground hover:text-foreground hover:bg-muted rounded p-0.5 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                        >
+                            <Plus size={10} />
+                        </button>
                         {unit ? (
-                            <span className={cn("font-mono text-[10px]", locked ? "text-muted-foreground" : "text-foreground")}>
+                            <span className={cn("font-mono text-[10px] ml-0.5", locked ? "text-muted-foreground" : "text-foreground")}>
                                 {unit}
                             </span>
                         ) : null}
@@ -239,15 +255,6 @@ function LabeledSliderComponent({
             </div>
 
             <div className={cn("flex items-center gap-3", locked && "hidden")}>
-                <button
-                    onClick={handleDecrease}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                    type="button"
-                    disabled={locked}
-                >
-                    <Minus size={14} />
-                </button>
-
                 <Slider
                     value={[value]}
                     min={min}
@@ -257,15 +264,6 @@ function LabeledSliderComponent({
                     className="flex-1"
                     disabled={locked}
                 />
-
-                <button
-                    onClick={handleIncrease}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                    type="button"
-                    disabled={locked}
-                >
-                    <Plus size={14} />
-                </button>
             </div>
         </div>
     )
@@ -347,7 +345,15 @@ function ThumbnailLabeledSliderComponent({
             )}
         >
             <div className="mb-3 flex items-center gap-3">
-                <div className="flex shrink-0 items-center gap-1 rounded-lg border bg-background px-2 py-0.5">
+                <div className="flex shrink-0 items-center gap-1 rounded-lg border bg-background px-1.5 py-0.5">
+                    <button
+                        type="button"
+                        onClick={handleDecrease}
+                        disabled={disabled}
+                        className="text-muted-foreground hover:text-foreground hover:bg-muted rounded p-0.5 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                    >
+                        <Minus size={10} />
+                    </button>
                     <input
                         type="number"
                         value={draftInputValue}
@@ -362,13 +368,21 @@ function ThumbnailLabeledSliderComponent({
                                 event.currentTarget.blur()
                             }
                         }}
-                        className="w-[52px] bg-transparent text-center font-mono text-[10px] text-foreground outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                        className="w-[40px] bg-transparent text-center font-mono text-[10px] text-foreground outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                     />
-                    {unit ? <span className="font-mono text-[10px] text-foreground">{unit}</span> : null}
+                    <button
+                        type="button"
+                        onClick={handleIncrease}
+                        disabled={disabled}
+                        className="text-muted-foreground hover:text-foreground hover:bg-muted rounded p-0.5 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+                    >
+                        <Plus size={10} />
+                    </button>
+                    {unit ? <span className="font-mono text-[10px] text-foreground ml-0.5">{unit}</span> : null}
                 </div>
                 <div className="min-w-0 flex-1">
                     <label className={cn(
-                        "truncate text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5",
+                        "break-words whitespace-normal text-[10px] font-bold uppercase tracking-wider flex flex-wrap items-center gap-1.5 min-w-0 flex-1",
                         disabled ? "text-muted-foreground" : "text-foreground"
                     )}>
                         {label}
@@ -435,15 +449,6 @@ function ThumbnailLabeledSliderComponent({
                     </button>
                 ) : null}
 
-                <button
-                    onClick={handleDecrease}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                    type="button"
-                    disabled={disabled}
-                >
-                    <Minus size={14} />
-                </button>
-
                 <Slider
                     value={[draftValue]}
                     min={min}
@@ -453,15 +458,6 @@ function ThumbnailLabeledSliderComponent({
                     className="flex-1"
                     disabled={disabled}
                 />
-
-                <button
-                    onClick={handleIncrease}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                    type="button"
-                    disabled={disabled}
-                >
-                    <Plus size={14} />
-                </button>
             </div>
         </div>
     )

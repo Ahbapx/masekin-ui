@@ -8,6 +8,13 @@ This project follows a simple Keep a Changelog style and SemVer-inspired version
 
 - No unreleased entries yet.
 
+## [0.1.25] - 2026-06-27
+
+- Labeled slider text now wraps words properly (`break-words whitespace-normal`).
+- Removed external +/- buttons from labeled slider layout.
+- Added custom inline +/- buttons flanking the input value inside the input wrapper.
+- Redesigned the slider track with a pill shape, custom vertical tick markings, diagonal cross-hatching fill, and vertical line thumb.
+
 ## [0.1.24] - 2026-05-15
 
 - Added a committed npm lockfile so installs and audits are reproducible.
