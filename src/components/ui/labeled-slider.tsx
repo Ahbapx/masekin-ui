@@ -223,7 +223,7 @@ function LabeledSliderComponent({
                 />
 
                 <div className={cn(
-                    "flex items-center gap-1 rounded-full border border-border/80 bg-muted/40 pl-2.5 pr-1.5 py-0.5 h-6 shrink-0",
+                    "flex items-center gap-1 rounded-lg border border-border/80 bg-muted/40 pl-2.5 pr-1.5 py-0.5 h-6 shrink-0",
                     locked && "opacity-50 pointer-events-none"
                 )}>
                     <input
@@ -430,7 +430,7 @@ function ThumbnailLabeledSliderComponent({
                 />
 
                 <div className={cn(
-                    "flex items-center gap-1 rounded-full border border-border/80 bg-muted/40 pl-2.5 pr-1.5 py-0.5 h-6 shrink-0",
+                    "flex items-center gap-1 rounded-lg border border-border/80 bg-muted/40 pl-2.5 pr-1.5 py-0.5 h-6 shrink-0",
                     disabled && "opacity-50 pointer-events-none"
                 )}>
                     <input

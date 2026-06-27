@@ -8,6 +8,13 @@ This project follows a simple Keep a Changelog style and SemVer-inspired version
 
 - No unreleased entries yet.
 
+## [0.1.27] - 2026-06-27
+
+- Applied `overflow-hidden rounded-lg` mask to the Slider Root to clip the vertical thumb line at the capsule boundaries.
+- Replaced slider track and input wrapper capsule styling from fully-rounded (`rounded-full`) to `rounded-lg`.
+- Updated active range fill to a solid, full-opacity background (`bg-primary`).
+- Set track vertical line tick height to 65% of the container (10% shorter than before) using `inset-y-[17.5%]`.
+
 ## [0.1.26] - 2026-06-27
 
 - Moved labeled slider input element to the right end of the slider track.
