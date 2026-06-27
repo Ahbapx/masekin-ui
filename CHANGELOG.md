@@ -8,6 +8,10 @@ This project follows a simple Keep a Changelog style and SemVer-inspired version
 
 - No unreleased entries yet.
 
+## [0.1.31] - 2026-06-27
+
+- Implemented dynamic value-dependent range fill opacity (mapping linearly from 15% opacity at minimum capacity to 80% opacity at maximum capacity).
+
 ## [0.1.30] - 2026-06-27
 
 - Restored range fill opacity and vertical line tick opacity to the optimal visual layout of v0.1.28.
