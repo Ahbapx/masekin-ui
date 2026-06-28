@@ -8,6 +8,10 @@ This project follows a simple Keep a Changelog style and SemVer-inspired version
 
 - No unreleased entries yet.
 
+## [0.1.34] - 2026-06-28
+
+- Removed `overflow-hidden rounded-lg` mask from the Slider Root element to resolve rendering artifacts (nested clipping/masking or "tunnel mask" distortion) on mobile browsers when switching sidebar tabs.
+
 ## [0.1.33] - 2026-06-28
 
 - Removed `[contain:layout_paint]` styling from labeled slider and thumbnail labeled slider container wrappers to fix rendering glitches/distortions on mobile devices when switching tabs in sidebars/drawers.

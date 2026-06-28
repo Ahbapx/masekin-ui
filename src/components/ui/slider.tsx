@@ -25,7 +25,7 @@ const Slider = React.forwardRef<
             min={min}
             max={max}
             className={cn(
-                "relative flex w-full touch-none select-none items-center h-6 overflow-hidden rounded-lg",
+                "relative flex w-full touch-none select-none items-center h-6",
                 className
             )}
             {...props}
