@@ -8,6 +8,10 @@ This project follows a simple Keep a Changelog style and SemVer-inspired version
 
 - No unreleased entries yet.
 
+## [0.1.35] - 2026-06-28
+
+- Added GPU layer isolation styling (`transform: translate3d`, `backface-visibility`) to the EditorSidebar content wrapper to prevent viewport texture bleeding ("mini screen screenshot distortion") on mobile devices during sidebar tab switches.
+
 ## [0.1.34] - 2026-06-28
 
 - Removed `overflow-hidden rounded-lg` mask from the Slider Root element to resolve rendering artifacts (nested clipping/masking or "tunnel mask" distortion) on mobile browsers when switching sidebar tabs.

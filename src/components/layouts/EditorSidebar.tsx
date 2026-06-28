@@ -75,6 +75,11 @@ function SidebarBody({
                         "box-border h-full w-full max-w-full min-w-0 overflow-x-hidden",
                         contentClassName,
                     )}
+                    style={{
+                        transform: "translate3d(0, 0, 0)",
+                        backfaceVisibility: "hidden",
+                        WebkitBackfaceVisibility: "hidden",
+                    }}
                 >
                     {content}
                 </div>
