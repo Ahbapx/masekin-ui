@@ -8,6 +8,10 @@ This project follows a simple Keep a Changelog style and SemVer-inspired version
 
 - No unreleased entries yet.
 
+## [0.1.33] - 2026-06-28
+
+- Removed `[contain:layout_paint]` styling from labeled slider and thumbnail labeled slider container wrappers to fix rendering glitches/distortions on mobile devices when switching tabs in sidebars/drawers.
+
 ## [0.1.32] - 2026-06-27
 
 - Added `select-none` style class to labeled slider container wrappers to prevent text selection during slider drags (leaving input fields selectable).
