@@ -61,7 +61,7 @@ export const SidebarThinbar: React.FC<SidebarThinbarProps> = ({
                         key={tab.id}
                         onClick={() => onTabChange(tab.id)}
                         className={cn(
-                            "flex min-w-0 items-center rounded-md transition-all",
+                            "flex min-w-0 items-center rounded-md transition-colors",
                             showLabels ? "w-full flex-col justify-center gap-1 px-1 py-1.5" : "h-8 w-8 justify-center",
                             isActive
                                 ? "bg-background border border-border shadow-sm text-foreground"
