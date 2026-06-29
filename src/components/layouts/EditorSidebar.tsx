@@ -67,14 +67,14 @@ function SidebarBody({
     const activeTabKey = thinbar?.activeTab ?? "default";
     const viewportRef = React.useRef<HTMLDivElement>(null);
 
-    React.useEffect(() => {
-        const viewport = viewportRef.current;
-        if (viewport) {
-            requestAnimationFrame(() => {
-                viewport.scrollTop = 0;
-            });
-        }
-    }, [activeTabKey]);
+    // React.useEffect(() => {
+    //     const viewport = viewportRef.current;
+    //     if (viewport) {
+    //         requestAnimationFrame(() => {
+    //             viewport.scrollTop = 0;
+    //         });
+    //     }
+    // }, [activeTabKey]);
 
     if (isMobile) {
         return (
