@@ -64,16 +64,22 @@ function SidebarBody({
 >) {
     const thinbarPosition = thinbar?.position ?? "right";
     const activeTabKey = thinbar?.activeTab ?? "default";
+    const viewportRef = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+        if (viewportRef.current) {
+            viewportRef.current.scrollTo({ top: 0 });
+        }
+    }, [activeTabKey]);
 
     const mainContent = (
         <SidebarContent className="h-full min-h-0 min-w-0 w-full flex-1 gap-0 overflow-hidden p-0">
             <ScrollArea
-                key={activeTabKey}
+                viewportRef={viewportRef}
                 className={cn("editor-sidebar-scroll-area h-full min-h-0 min-w-0 w-full flex-1", scrollAreaClassName)}
                 viewportClassName={cn("editor-sidebar-scroll-viewport h-full w-full", scrollViewportClassName)}
             >
                 <div
-                    key={activeTabKey}
                     className={cn(
                         "box-border h-full w-full max-w-full min-w-0 overflow-x-hidden",
                         // GPU-layer promotion is desktop-only. On mobile this
@@ -160,11 +166,7 @@ export function EditorSidebar({
             <Sheet open={mobileOpen} onOpenChange={onMobileOpenChange}>
                 <SheetContent
                     side={side}
-                    className={cn(
-                        "flex h-full w-[85vw] max-w-[320px] flex-col p-0 [will-change:transform] [isolation:isolate]",
-                        thinbar && (side === "right" ? "[&>button]:left-4 [&>button]:right-auto" : "[&>button]:right-4 [&>button]:left-auto"),
-                        className
-                    )}
+                    className={cn("flex h-full w-[85vw] max-w-[320px] flex-col p-0 [will-change:transform] [isolation:isolate]", className)}
                 >
                     <SheetHeader className="sr-only">
                         <SheetTitle>{side === "left" ? "Left Sidebar" : "Right Sidebar"}</SheetTitle>
