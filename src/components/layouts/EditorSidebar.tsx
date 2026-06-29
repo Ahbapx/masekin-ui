@@ -76,36 +76,76 @@ function SidebarBody({
         }
     }, [activeTabKey]);
 
-    const mainContent = (
-        <SidebarContent className="h-full min-h-0 min-w-0 w-full flex-1 gap-0 overflow-hidden p-0">
-            {isMobile ? (
-                <div
-                    ref={viewportRef}
-                    className={cn(
-                        "h-full min-h-0 min-w-0 w-full flex-1 overflow-y-auto overflow-x-hidden pb-safe",
-                        scrollAreaClassName
+    if (isMobile) {
+        return (
+            <div className="flex h-full w-full min-h-0 flex-col overflow-hidden bg-background">
+                {header && (
+                    <SidebarHeader className="shrink-0 gap-0 border-b border-border bg-muted/30 p-0">
+                        {header}
+                    </SidebarHeader>
+                )}
+
+                <div className="flex flex-1 min-h-0 min-w-0 overflow-hidden">
+                    {thinbar && thinbarPosition === "left" && (
+                        <SidebarThinbar
+                            tabs={thinbar.tabs}
+                            activeTab={thinbar.activeTab}
+                            onTabChange={thinbar.onTabChange}
+                            position="left"
+                            showLabels={thinbar.showLabels}
+                            className={thinbar.className}
+                        />
                     )}
-                >
-                    <div className={cn("box-border min-w-0 w-full", contentClassName)}>
-                        {content}
-                    </div>
-                </div>
-            ) : (
-                <ScrollArea
-                    viewportRef={viewportRef}
-                    className={cn("editor-sidebar-scroll-area h-full min-h-0 min-w-0 w-full flex-1", scrollAreaClassName)}
-                    viewportClassName={cn("editor-sidebar-scroll-viewport h-full w-full", scrollViewportClassName)}
-                >
+
                     <div
+                        ref={viewportRef}
                         className={cn(
-                            "box-border h-full w-full max-w-full min-w-0 overflow-x-hidden md:[transform:translate3d(0,0,0)] md:[backface-visibility:hidden] md:[-webkit-backface-visibility:hidden]",
-                            contentClassName,
+                            "flex-1 h-full min-h-0 overflow-y-auto overflow-x-hidden pb-safe box-border min-w-0",
+                            scrollAreaClassName
                         )}
                     >
-                        {content}
+                        <div className={cn("box-border min-w-0 w-full", contentClassName)}>
+                            {content}
+                        </div>
                     </div>
-                </ScrollArea>
-            )}
+
+                    {thinbar && thinbarPosition === "right" && (
+                        <SidebarThinbar
+                            tabs={thinbar.tabs}
+                            activeTab={thinbar.activeTab}
+                            onTabChange={thinbar.onTabChange}
+                            position="right"
+                            showLabels={thinbar.showLabels}
+                            className={thinbar.className}
+                        />
+                    )}
+                </div>
+
+                {footer && (
+                    <SidebarFooter className="shrink-0 gap-0 border-t border-border bg-muted/30 p-0">
+                        {footer}
+                    </SidebarFooter>
+                )}
+            </div>
+        );
+    }
+
+    const mainContent = (
+        <SidebarContent className="h-full min-h-0 min-w-0 w-full flex-1 gap-0 overflow-hidden p-0">
+            <ScrollArea
+                viewportRef={viewportRef}
+                className={cn("editor-sidebar-scroll-area h-full min-h-0 min-w-0 w-full flex-1", scrollAreaClassName)}
+                viewportClassName={cn("editor-sidebar-scroll-viewport h-full w-full", scrollViewportClassName)}
+            >
+                <div
+                    className={cn(
+                        "box-border h-full w-full max-w-full min-w-0 overflow-x-hidden md:[transform:translate3d(0,0,0)] md:[backface-visibility:hidden] md:[-webkit-backface-visibility:hidden]",
+                        contentClassName,
+                    )}
+                >
+                    {content}
+                </div>
+            </ScrollArea>
         </SidebarContent>
     );
 
