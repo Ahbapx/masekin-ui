@@ -160,7 +160,11 @@ export function EditorSidebar({
             <Sheet open={mobileOpen} onOpenChange={onMobileOpenChange}>
                 <SheetContent
                     side={side}
-                    className={cn("flex h-full w-[85vw] max-w-[320px] flex-col p-0 [will-change:transform] [isolation:isolate]", className)}
+                    className={cn(
+                        "flex h-full w-[85vw] max-w-[320px] flex-col p-0 [will-change:transform] [isolation:isolate]",
+                        thinbar && (side === "right" ? "[&>button]:left-4 [&>button]:right-auto" : "[&>button]:right-4 [&>button]:left-auto"),
+                        className
+                    )}
                 >
                     <SheetHeader className="sr-only">
                         <SheetTitle>{side === "left" ? "Left Sidebar" : "Right Sidebar"}</SheetTitle>
