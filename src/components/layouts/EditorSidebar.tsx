@@ -63,14 +63,17 @@ function SidebarBody({
     | "thinbar"
 >) {
     const thinbarPosition = thinbar?.position ?? "right";
+    const activeTabKey = thinbar?.activeTab ?? "default";
 
     const mainContent = (
         <SidebarContent className="h-full min-h-0 min-w-0 w-full flex-1 gap-0 overflow-hidden p-0">
             <ScrollArea
+                key={activeTabKey}
                 className={cn("editor-sidebar-scroll-area h-full min-h-0 min-w-0 w-full flex-1", scrollAreaClassName)}
                 viewportClassName={cn("editor-sidebar-scroll-viewport h-full w-full", scrollViewportClassName)}
             >
                 <div
+                    key={activeTabKey}
                     className={cn(
                         "box-border h-full w-full max-w-full min-w-0 overflow-x-hidden",
                         // GPU-layer promotion is desktop-only. On mobile this
