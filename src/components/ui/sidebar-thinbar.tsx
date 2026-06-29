@@ -61,11 +61,11 @@ export const SidebarThinbar: React.FC<SidebarThinbarProps> = ({
                         key={tab.id}
                         onClick={() => onTabChange(tab.id)}
                         className={cn(
-                            "flex min-w-0 items-center rounded-md transition-colors",
+                            "flex min-w-0 items-center rounded-md transition-colors border",
                             showLabels ? "w-full flex-col justify-center gap-1 px-1 py-1.5" : "h-8 w-8 justify-center",
                             isActive
-                                ? "bg-background border border-border shadow-sm text-foreground"
-                                : "text-muted-foreground hover:text-foreground hover:bg-background/50"
+                                ? "bg-background border-border shadow-sm text-foreground"
+                                : "border-transparent text-muted-foreground hover:text-foreground hover:bg-background/50"
                         )}
                         title={tab.label}
                         aria-label={tab.label}
