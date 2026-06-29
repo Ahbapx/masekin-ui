@@ -68,8 +68,11 @@ function SidebarBody({
     const viewportRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
-        if (viewportRef.current) {
-            viewportRef.current.scrollTo({ top: 0 });
+        const viewport = viewportRef.current;
+        if (viewport) {
+            requestAnimationFrame(() => {
+                viewport.scrollTop = 0;
+            });
         }
     }, [activeTabKey]);
 
