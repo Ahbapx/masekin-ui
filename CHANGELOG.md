@@ -8,6 +8,11 @@ This project follows a simple Keep a Changelog style and SemVer-inspired version
 
 - No unreleased entries yet.
 
+## [0.1.36] - 2026-06-29
+
+- Fixed the mobile "mini screen glitch" appearing on top of the right-sidebar Sheet for Three.js and custom WebGL apps. The desktop-only GPU-layer promotion (`transform: translate3d`, `backface-visibility:hidden`) is now scoped to `md:` arbitrary variants so it no longer promotes a layer inside the Sheet portal on mobile (the layer that was leaking the stale WebGL framebuffer during the slide animation and tab content swaps).
+- `EditorLayout` now dispatches `tool:raf-pause` / `tool:raf-resume` window events when a mobile sidebar drawer opens/closes, so tool RAF loops (via `@cade/tooling`'s `useRafLoop`) stop committing WebGL frames while the compositor rebuilds the Sheet's layer tree.
+
 ## [0.1.35] - 2026-06-28
 
 - Added GPU layer isolation styling (`transform: translate3d`, `backface-visibility`) to the EditorSidebar content wrapper to prevent viewport texture bleeding ("mini screen screenshot distortion") on mobile devices during sidebar tab switches.

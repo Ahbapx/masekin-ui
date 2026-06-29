@@ -179,6 +179,19 @@ export function EditorLayout({
     const [leftMobileOpen, setLeftMobileOpen] = React.useState(false);
     const [rightMobileOpen, setRightMobileOpen] = React.useState(false);
 
+    // Pause any tool RAF loops while a mobile sidebar Sheet is open. The
+    // compositor rebuilds the Sheet's layer tree on open/close (and on tab
+    // content swaps), which can otherwise leak the WebGL/Three.js
+    // framebuffer as a stale "glitch rect" on top of the drawer. Tools
+    // subscribe to these events via `useRafLoop` in @cade/tooling.
+    React.useEffect(() => {
+        if (leftMobileOpen || rightMobileOpen) {
+            window.dispatchEvent(new Event("tool:raf-pause"));
+        } else {
+            window.dispatchEvent(new Event("tool:raf-resume"));
+        }
+    }, [leftMobileOpen, rightMobileOpen]);
+
     // Context value
     const contextValue = React.useMemo<EditorLayoutContextType>(
         () => ({

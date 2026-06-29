@@ -73,13 +73,16 @@ function SidebarBody({
                 <div
                     className={cn(
                         "box-border h-full w-full max-w-full min-w-0 overflow-x-hidden",
+                        // GPU-layer promotion is desktop-only. On mobile this
+                        // wrapper lives inside the Sheet portal; forcing it
+                        // onto its own compositor layer causes a stale
+                        // WebGL framebuffer to be painted through the drawer
+                        // during the slide animation and tab-content swaps.
+                        // md:[...] arbitrary variants keep the sub-pixel text
+                        // fix on desktop without touching mobile compositing.
+                        "md:[transform:translate3d(0,0,0)] md:[backface-visibility:hidden] md:[-webkit-backface-visibility:hidden]",
                         contentClassName,
                     )}
-                    style={{
-                        transform: "translate3d(0, 0, 0)",
-                        backfaceVisibility: "hidden",
-                        WebkitBackfaceVisibility: "hidden",
-                    }}
                 >
                     {content}
                 </div>
