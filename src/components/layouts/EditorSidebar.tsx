@@ -52,6 +52,7 @@ function SidebarBody({
     scrollViewportClassName,
     contentClassName,
     thinbar,
+    isMobile,
 }: Pick<
     EditorSidebarProps,
     | "content"
@@ -61,7 +62,7 @@ function SidebarBody({
     | "scrollViewportClassName"
     | "contentClassName"
     | "thinbar"
->) {
+> & { isMobile?: boolean }) {
     const thinbarPosition = thinbar?.position ?? "right";
     const activeTabKey = thinbar?.activeTab ?? "default";
     const viewportRef = React.useRef<HTMLDivElement>(null);
@@ -74,28 +75,34 @@ function SidebarBody({
 
     const mainContent = (
         <SidebarContent className="h-full min-h-0 min-w-0 w-full flex-1 gap-0 overflow-hidden p-0">
-            <ScrollArea
-                viewportRef={viewportRef}
-                className={cn("editor-sidebar-scroll-area h-full min-h-0 min-w-0 w-full flex-1", scrollAreaClassName)}
-                viewportClassName={cn("editor-sidebar-scroll-viewport h-full w-full", scrollViewportClassName)}
-            >
+            {isMobile ? (
                 <div
+                    ref={viewportRef}
                     className={cn(
-                        "box-border h-full w-full max-w-full min-w-0 overflow-x-hidden",
-                        // GPU-layer promotion is desktop-only. On mobile this
-                        // wrapper lives inside the Sheet portal; forcing it
-                        // onto its own compositor layer causes a stale
-                        // WebGL framebuffer to be painted through the drawer
-                        // during the slide animation and tab-content swaps.
-                        // md:[...] arbitrary variants keep the sub-pixel text
-                        // fix on desktop without touching mobile compositing.
-                        "md:[transform:translate3d(0,0,0)] md:[backface-visibility:hidden] md:[-webkit-backface-visibility:hidden]",
-                        contentClassName,
+                        "h-full min-h-0 min-w-0 w-full flex-1 overflow-y-auto overflow-x-hidden pb-safe",
+                        scrollAreaClassName
                     )}
                 >
-                    {content}
+                    <div className={cn("box-border min-w-0 w-full", contentClassName)}>
+                        {content}
+                    </div>
                 </div>
-            </ScrollArea>
+            ) : (
+                <ScrollArea
+                    viewportRef={viewportRef}
+                    className={cn("editor-sidebar-scroll-area h-full min-h-0 min-w-0 w-full flex-1", scrollAreaClassName)}
+                    viewportClassName={cn("editor-sidebar-scroll-viewport h-full w-full", scrollViewportClassName)}
+                >
+                    <div
+                        className={cn(
+                            "box-border h-full w-full max-w-full min-w-0 overflow-x-hidden md:[transform:translate3d(0,0,0)] md:[backface-visibility:hidden] md:[-webkit-backface-visibility:hidden]",
+                            contentClassName,
+                        )}
+                    >
+                        {content}
+                    </div>
+                </ScrollArea>
+            )}
         </SidebarContent>
     );
 
@@ -174,6 +181,7 @@ export function EditorSidebar({
                     </SheetHeader>
 
                     <SidebarBody
+                        isMobile={true}
                         header={header}
                         footer={footer}
                         content={content}
@@ -209,6 +217,7 @@ export function EditorSidebar({
             style={{ width: open ? resolvedWidth : 0 }}
         >
             <SidebarBody
+                isMobile={false}
                 header={header}
                 footer={footer}
                 content={content}
