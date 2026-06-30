@@ -46,6 +46,7 @@ import { EditorLayout } from "@masekin/ui/components/layouts";
 - `EditorLayout` handles layout-level concerns (sidebar open/close, mobile drawers, panel structure).
 - `EditorLayout` does **not** automatically virtualize arbitrary sidebar content.
 - For very large lists, virtualize at panel level inside `content` (app-level list component).
+- **Mobile Compositor Layering**: On mobile touch screens overlaying hardware-accelerated viewports (WebGL/SVG), avoid rendering the thinbar and the scrolling panels as separate root flex siblings inside portals. Keeping them nested inside a single parent container and using DOM preservation (`display: none` / `hidden` class) instead of unmounting prevents VRAM leaks and compositor tearing.
 
 ## Safe Defaults
 
