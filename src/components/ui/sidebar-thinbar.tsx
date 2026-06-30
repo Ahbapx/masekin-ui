@@ -67,7 +67,6 @@ export const SidebarThinbar: React.FC<SidebarThinbarProps> = ({
                                 ? "bg-background border-border shadow-sm text-foreground"
                                 : "border-transparent text-muted-foreground hover:text-foreground hover:bg-background/50"
                         )}
-                        title={tab.label}
                         aria-label={tab.label}
                         aria-pressed={isActive}
                     >

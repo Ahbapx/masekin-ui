@@ -67,14 +67,14 @@ function SidebarBody({
     const activeTabKey = thinbar?.activeTab ?? "default";
     const viewportRef = React.useRef<HTMLDivElement>(null);
 
-    // React.useEffect(() => {
-    //     const viewport = viewportRef.current;
-    //     if (viewport) {
-    //         requestAnimationFrame(() => {
-    //             viewport.scrollTop = 0;
-    //         });
-    //     }
-    // }, [activeTabKey]);
+    React.useEffect(() => {
+        const viewport = viewportRef.current;
+        if (viewport) {
+            requestAnimationFrame(() => {
+                viewport.scrollTop = 0;
+            });
+        }
+    }, [activeTabKey]);
 
     if (isMobile) {
         return (
@@ -97,15 +97,18 @@ function SidebarBody({
                         />
                     )}
 
-                    <div
-                        ref={viewportRef}
-                        className={cn(
-                            "flex-1 h-full min-h-0 overflow-y-auto overflow-x-hidden pb-safe box-border min-w-0",
-                            scrollAreaClassName
-                        )}
-                    >
-                        <div className={cn("box-border min-w-0 w-full", contentClassName)}>
-                            {content}
+                    {/* Compositor-isolating nested wrapper */}
+                    <div className="flex-1 h-full min-h-0 min-w-0 flex flex-col overflow-hidden">
+                        <div
+                            ref={viewportRef}
+                            className={cn(
+                                "flex-1 h-full min-h-0 overflow-y-auto overflow-x-hidden pb-safe box-border min-w-0",
+                                scrollAreaClassName
+                            )}
+                        >
+                            <div className={cn("box-border min-w-0 w-full", contentClassName)}>
+                                {content}
+                            </div>
                         </div>
                     </div>
 
