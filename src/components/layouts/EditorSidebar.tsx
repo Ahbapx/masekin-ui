@@ -85,43 +85,45 @@ function SidebarBody({
                     </SidebarHeader>
                 )}
 
+                {/* Single root container with no outer sibling splits */}
                 <div className="flex flex-1 min-h-0 min-w-0 overflow-hidden">
-                    {thinbar && thinbarPosition === "left" && (
-                        <SidebarThinbar
-                            tabs={thinbar.tabs}
-                            activeTab={thinbar.activeTab}
-                            onTabChange={thinbar.onTabChange}
-                            position="left"
-                            showLabels={thinbar.showLabels}
-                            className={thinbar.className}
-                        />
-                    )}
-
-                    {/* Compositor-isolating nested wrapper */}
                     <div className="flex-1 h-full min-h-0 min-w-0 flex flex-col overflow-hidden">
-                        <div
-                            ref={viewportRef}
-                            className={cn(
-                                "flex-1 h-full min-h-0 overflow-y-auto overflow-x-hidden pb-safe box-border min-w-0",
-                                scrollAreaClassName
+                        <div className="flex h-full w-full min-h-0 overflow-hidden">
+                            {thinbar && thinbarPosition === "left" && (
+                                <SidebarThinbar
+                                    tabs={thinbar.tabs}
+                                    activeTab={thinbar.activeTab}
+                                    onTabChange={thinbar.onTabChange}
+                                    position="left"
+                                    showLabels={thinbar.showLabels}
+                                    className={thinbar.className}
+                                />
                             )}
-                        >
-                            <div className={cn("box-border min-w-0 w-full", contentClassName)}>
-                                {content}
+
+                            <div
+                                ref={viewportRef}
+                                className={cn(
+                                    "flex-1 h-full min-h-0 overflow-y-auto overflow-x-hidden pb-safe box-border min-w-0",
+                                    scrollAreaClassName
+                                )}
+                            >
+                                <div className={cn("box-border min-w-0 w-full", contentClassName)}>
+                                    {content}
+                                </div>
                             </div>
+
+                            {thinbar && thinbarPosition === "right" && (
+                                <SidebarThinbar
+                                    tabs={thinbar.tabs}
+                                    activeTab={thinbar.activeTab}
+                                    onTabChange={thinbar.onTabChange}
+                                    position="right"
+                                    showLabels={thinbar.showLabels}
+                                    className={thinbar.className}
+                                />
+                            )}
                         </div>
                     </div>
-
-                    {thinbar && thinbarPosition === "right" && (
-                        <SidebarThinbar
-                            tabs={thinbar.tabs}
-                            activeTab={thinbar.activeTab}
-                            onTabChange={thinbar.onTabChange}
-                            position="right"
-                            showLabels={thinbar.showLabels}
-                            className={thinbar.className}
-                        />
-                    )}
                 </div>
 
                 {footer && (
